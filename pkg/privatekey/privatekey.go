@@ -1,0 +1,16 @@
+package privatekey
+
+import (
+	"crypto/ecdsa"
+	"crypto/x509"
+	"encoding/pem"
+)
+
+// Returns the PEM-Encoded byte slice from a given private key
+func EncodePrivateKey(key *ecdsa.PrivateKey) ([]byte, error) {
+	x509EncodedPriv, err := x509.MarshalECPrivateKey(key)
+	if err != nil {
+		return []byte{}, err
+	}
+	return pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: x509EncodedPriv}), nil
+}
