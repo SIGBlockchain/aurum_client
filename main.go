@@ -1,6 +1,12 @@
 package main
 
-import "github.com/pborman/getopt"
+import (
+	"fmt"
+	"os"
+
+	"github.com/SIGBlockchain/aurum_client/pkg/wallet"
+	"github.com/pborman/getopt"
+)
 
 type Opts struct {
 	help       *bool
@@ -14,6 +20,7 @@ type Opts struct {
 	producer   *string
 }
 
+// TODO: Use flag package
 func main() {
 	options := Opts{
 		help:       getopt.BoolLong("help", '?', "help"),
@@ -27,4 +34,20 @@ func main() {
 		producer:   getopt.StringLong("producer", 'p', "", "producer address"),
 	}
 
+	if *options.help {
+		getopt.Usage()
+		os.Exit(0)
+	}
+
+	if *options.setup {
+		fmt.Println("Initializing Aurum wallet...")
+		if err := wallet.SetupWallet(); err != nil {
+			fmt.Printf("Failed to set up wallet: %v", err)
+			os.Exit(1)
+		}
+		fmt.Println("Wallet setup complete.")
+		if err := wallet.PrintInfo(); err != nil {
+			fmt.Printf("Failed to print wallet info: %v", err)
+		}
+	}
 }
