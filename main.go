@@ -1,43 +1,31 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/SIGBlockchain/aurum_client/pkg/wallet"
-	"github.com/pborman/getopt"
 )
 
 type Opts struct {
-	help       *bool
-	version    *bool
 	setup      *bool
 	info       *bool
 	updateInfo *bool
-	contract   *bool
-	recipient  *string
 	value      *string
-	producer   *string
+	recipient  *string
 }
 
 // TODO: Use flag package
 func main() {
 	options := Opts{
-		help:       getopt.BoolLong("help", '?', "help"),
-		version:    getopt.BoolLong("version", 'w', "version"),
-		setup:      getopt.BoolLong("setup", 's', "set up client"),
-		info:       getopt.BoolLong("info", 'i', "wallet info"),
-		updateInfo: getopt.BoolLong("update", 'u', "update wallet info"),
-		contract:   getopt.BoolLong("contract", 'c', "make contract"),
-		recipient:  getopt.StringLong("recipient", 'r', "recipient"),
-		value:      getopt.StringLong("value", 'v', "", "value to send"),
-		producer:   getopt.StringLong("producer", 'p', "", "producer address"),
+		setup:      flag.Bool("setup", false, "set up client"),
+		info:       flag.Bool("info", false, "wallet info"),
+		updateInfo: flag.Bool("update", false, "update wallet info"),
+		recipient:  flag.String("to", "", "recipient"),
+		value:      flag.String("send", "", "value to send"),
 	}
-
-	if *options.help {
-		getopt.Usage()
-		os.Exit(0)
-	}
+	flag.Parse()
 
 	if *options.setup {
 		fmt.Println("Initializing Aurum wallet...")
