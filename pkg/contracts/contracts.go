@@ -4,10 +4,13 @@ import (
 	"crypto/ecdsa"
 	"crypto/rand"
 	"encoding/binary"
+	"encoding/hex"
 	"errors"
+	"strconv"
 
 	"github.com/SIGBlockchain/aurum_client/pkg/hashing"
 	"github.com/SIGBlockchain/aurum_client/pkg/publickey"
+	"github.com/SIGBlockchain/aurum_client/pkg/wallet"
 )
 
 type Contract struct {
@@ -100,4 +103,61 @@ func (c *Contract) SignContract(sender *ecdsa.PrivateKey) error {
 	c.Signature, _ = sender.Sign(rand.Reader, hashedContract, nil)
 	c.SigLen = uint8(len(c.Signature))
 	return nil
+}
+
+// Convert value to uint64; if unsuccessful output an error
+// If value is zero, output error
+// GetBalance(), if value is > than wallet balance, output an error
+// GetStateNonce(), GetPrivateKey()
+// Convert recipient to []byte; if unsuccessful output an error
+// MakeContract(...) (use version global), SignContract(...)
+// Output a contract message, with the following structure:
+// producer.SecretBytes + uint8(1) + serializedContract
+// NOTE: The uint8(1) here will let the producer know that this is a contract message
+func ContractMessageFromInput(version uint16, value string, recipient string) (*Contract, error) {
+	intVal, err := strconv.Atoi(value) // convert value (string) to int
+	if err != nil {
+		return nil, errors.New("Unable to convert input to int " + err.Error())
+	}
+
+	// case input is zero or less
+	if intVal <= 0 {
+		return nil, errors.New("Input value is less than or equal to zero")
+	}
+
+	// case balance < input
+	balance, err := wallet.GetBalance()
+	if err != nil {
+		return nil, errors.New("Failed to get balance: " + err.Error())
+	}
+	if balance < uint64(intVal) {
+		return nil, errors.New("Input is greater than available balance")
+	}
+
+	stateNonce, err := wallet.GetStateNonce()
+	if err != nil {
+		return nil, errors.New("Failed to get stateNonce: " + err.Error())
+	}
+
+	// case recipBytes != 32
+	recipBytes, err := hex.DecodeString(recipient)
+	if err != nil {
+		return nil, errors.New("Failed to hex decode recipient")
+	}
+	if len(recipBytes) != 32 {
+		return nil, errors.New("Failed to convert recipient to size 32 byte slice")
+	}
+
+	senderPubKey, err := wallet.GetPrivateKey()
+	if err != nil {
+		return nil, err
+	}
+
+	contract, err := MakeContract(version, senderPubKey, recipBytes, uint64(intVal), stateNonce+1)
+	if err != nil {
+		return nil, err
+	}
+	contract.SignContract(senderPubKey)
+
+	return contract, nil
 }

@@ -1,6 +1,4 @@
 {
-    "ProducerAddress": {
-        "IP": "127.0.0.1",
-        "Port": "9001"
-    }
+    "Version": 1,
+    "ProducerAddress": ""
 }

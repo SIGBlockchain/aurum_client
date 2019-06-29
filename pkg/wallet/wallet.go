@@ -14,8 +14,14 @@ import (
 	"github.com/SIGBlockchain/aurum_client/pkg/constants"
 	"github.com/SIGBlockchain/aurum_client/pkg/hashing"
 	"github.com/SIGBlockchain/aurum_client/pkg/privatekey"
-	"github.com/SIGBlockchain/project_aurum/pkg/keys"
+	"github.com/SIGBlockchain/aurum_client/pkg/publickey"
 )
+
+type Wallet struct {
+	WalletAddress string
+	Balance       uint64
+	StateNonce    uint64
+}
 
 func SetupWallet() error {
 	// if the JSON file already exists, return error
@@ -175,12 +181,83 @@ func GetWalletAddress() ([]byte, error) {
 	}
 
 	// Get the private key
-	privKey, err := keys.DecodePrivateKey(privKeyHash)
+	privKey, err := privatekey.DecodePrivateKey(privKeyHash)
 	if err != nil {
 		return nil, errors.New("Failed to decode private key hash")
 	}
 
 	// Get the PEM encoded public key
-	pubKeyEncoded := keys.EncodePublicKey(&privKey.PublicKey)
+	pubKeyEncoded := publickey.EncodePublicKey(&privKey.PublicKey)
 	return hashing.HashSHA256(pubKeyEncoded), nil
+}
+
+// Opens the wallet and returns the private key
+func GetPrivateKey() (*ecdsa.PrivateKey, error) {
+	// Opens the wallet
+	file, err := os.Open("aurum_wallet.json")
+	if err != nil {
+		return nil, errors.New("Failed to open wallet")
+	}
+	defer file.Close()
+
+	// Reads the file and stores the data into a byte slice
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, errors.New("Failed to read wallet")
+	}
+
+	// Json struct for storing the private key from the json file
+	type jsonStruct struct {
+		PrivateKey string
+	}
+
+	// Parse the data from the json file into a jsonStruct
+	var j jsonStruct
+	err = json.Unmarshal(data, &j)
+	if err != nil {
+		return nil, err
+	}
+
+	// Decodes the private key from the jsonStruct
+	pemEncoded, _ := hex.DecodeString(j.PrivateKey)
+	privateKey, err := privatekey.DecodePrivateKey(pemEncoded)
+	if err != nil {
+		return nil, err
+	}
+
+	return privateKey, nil
+}
+
+func UpdateWallet(balance, stateNonce uint64) error {
+	wallet := "aurum_wallet.json"
+	if _, err := os.Stat(wallet); os.IsNotExist(err) {
+		return errors.New("wallet file not detected: " + err.Error())
+	}
+	type walletData struct {
+		PrivateKey string
+		Balance    uint64
+		Nonce      uint64
+	}
+	f, err := os.Open(wallet)
+	if err != nil {
+		return errors.New("failed to open wallet: " + err.Error())
+	}
+	defer f.Close()
+	data, err := ioutil.ReadAll(f)
+	var jsonData walletData
+	if err := json.Unmarshal(data, &jsonData); err != nil {
+		return errors.New("failed to unmarshall data: %s" + err.Error())
+	}
+	jsonData.Balance = balance
+	jsonData.Nonce = stateNonce
+
+	dumpData, err := json.Marshal(jsonData)
+	if err != nil {
+		return errors.New("failed to marshal dump data: " + err.Error())
+	}
+	if err := ioutil.WriteFile(wallet, dumpData, 0644); err != nil {
+		return errors.New("failed to write to file: " + err.Error())
+	}
+
+	return nil
 }
