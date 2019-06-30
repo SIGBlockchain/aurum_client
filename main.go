@@ -54,7 +54,7 @@ func main() {
 		if err := wallet.PrintInfo(); err != nil {
 			log.Fatalf("Failed to get wallet contents: %v\n", err)
 		}
-		os.Exit(0)
+		return
 	}
 
 	if *options.setup {
@@ -67,7 +67,7 @@ func main() {
 		if err := wallet.PrintInfo(); err != nil {
 			log.Fatalf("Failed to print wallet info: %v\n", err)
 		}
-		os.Exit(0)
+		return
 	}
 
 	if *options.update {
@@ -87,6 +87,7 @@ func main() {
 			log.Fatalf("Failed getting response from producer: %v\n", err)
 		}
 		if resp.StatusCode != http.StatusFound {
+			// TODO: Include some kind of response body
 			log.Fatalf("Status code: %v\n", resp.StatusCode)
 		}
 		defer resp.Body.Close()
@@ -95,11 +96,12 @@ func main() {
 		if err := json.Unmarshal(body, &updatedWallet); err != nil {
 			log.Fatalf("Failed to unmarshall response body: %v\n", err)
 		}
+		defer resp.Body.Close()
 		if err := wallet.UpdateWallet(updatedWallet.Balance, updatedWallet.StateNonce); err != nil {
 			log.Fatalf("Failed to update wallet: %v\n", err)
 		}
 		log.Println("Wallet updated successfully.")
-		os.Exit(0)
+		return
 	}
 
 	if *options.value != "" && *options.recipient != "" {
