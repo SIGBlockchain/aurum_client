@@ -49,6 +49,14 @@ func main() {
 		log.Printf("Aurum client version: %d\n", cfg.Version)
 	}
 
+	if *options.info {
+		checkFlagCount(1)
+		if err := wallet.PrintInfo(); err != nil {
+			log.Fatalf("Failed to get wallet contents: %v\n", err)
+		}
+		os.Exit(0)
+	}
+
 	if *options.setup {
 		checkFlagCount(1)
 		log.Println("Initializing Aurum wallet...")
