@@ -11,11 +11,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/SIGBlockchain/aurum_client/pkg/contracts"
-
-	"github.com/SIGBlockchain/aurum_client/pkg/config"
-	"github.com/SIGBlockchain/aurum_client/pkg/requests"
-	"github.com/SIGBlockchain/aurum_client/pkg/wallet"
+	"github.com/SIGBlockchain/aurum_client/internal/config"
+	"github.com/SIGBlockchain/aurum_client/internal/contracts"
+	"github.com/SIGBlockchain/aurum_client/internal/requests"
+	"github.com/SIGBlockchain/aurum_client/internal/wallet"
 )
 
 type Opts struct {
