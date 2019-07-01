@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/SIGBlockchain/aurum_client/internal/config"
 	"github.com/SIGBlockchain/aurum_client/internal/contracts"
@@ -85,7 +86,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("Failed getting response from producer: %v\n", err)
 		}
-		if resp.StatusCode != http.StatusFound {
+		if resp.StatusCode != http.StatusOK {
 			// TODO: Include some kind of response body
 			log.Fatalf("Status code: %v\n", resp.StatusCode)
 		}
@@ -124,10 +125,27 @@ func main() {
 			if err != nil {
 				log.Fatalf("Failed to read body of response: %v\n", err)
 			}
+			// TODO: Try again with incremented nonce
+			log.Println("Please wait for next block to be produced or update wallet.")
 			log.Fatalf("Status code: %v\nBody: %s\n", resp.StatusCode, buf.String())
 		}
 		defer resp.Body.Close()
-		fmt.Println("Successfully sent contract to producer.\nContract will be confirmed once next block is producer.")
+		currentBalance, err := wallet.GetBalance()
+		if err != nil {
+			log.Fatalf("Failed to get current balance: %v\n", err)
+		}
+		currentNonce, err := wallet.GetStateNonce()
+		if err != nil {
+			log.Fatalf("Failed to get current nonce: %v\n", err)
+		}
+		intVal, err := strconv.Atoi(*options.value)
+		if err != nil {
+			log.Fatalf("Failed to convert value to integer: %v", err)
+		}
+		if err := wallet.UpdateWallet(currentBalance-uint64(intVal), currentNonce+1); err != nil {
+			log.Fatalf("Failed to update wallet: %v\n", err)
+		}
+		log.Println("Successfully sent contract to producer.\nContract will be confirmed once next block is producer.")
 	}
 
 }

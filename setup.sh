@@ -22,7 +22,7 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "Welcome! Let's get everything set up."
 cd bin/
 ./client --setup > /dev/null
-chmod 400 aurum_wallet.json
+chmod 700 aurum_wallet.json
 echo "Okay your wallet's ready."
 echo "If you want to check out your wallet, run ./client --info"
 echo "Your wallet won't be registered with the producer until someone sends you some Aurum."

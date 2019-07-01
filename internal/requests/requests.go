@@ -48,7 +48,7 @@ func NewContractRequest(host string, newContract contracts.Contract) (*http.Requ
 	if err != nil {
 		return nil, errors.New("Failed to marshall contract: " + err.Error())
 	}
-	req, err := http.NewRequest(http.MethodPost, host+endpoints.Contract, bytes.NewBuffer(marshalledContract))
+	req, err := http.NewRequest(http.MethodPost, "http://"+host+endpoints.Contract, bytes.NewBuffer(marshalledContract))
 	if err != nil {
 		return nil, errors.New("Failed to create request: " + err.Error())
 	}
