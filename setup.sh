@@ -20,14 +20,9 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@#########&@@@@@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@@@#########&@@@@" 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "Welcome! Let's get everything set up."
-cd bin/
+chmod +x client
 ./client --setup > /dev/null
 chmod 700 aurum_wallet.json
 echo "Okay your wallet's ready."
-echo "If you want to check out your wallet, run ./client --info"
-echo "Your wallet won't be registered with the producer until someone sends you some Aurum."
-echo "To sync your wallet with the producer, run ./client --update"
-echo "To send someone some Aurum, run ./client --send=* --to=*"
-echo "you need to give a positive integer value and the recipient's wallet address"
-echo "Remember you can always run ./client -h or ./client --help to see all commands"
+echo "Run ./client -h or ./client --help to see all commands"
 echo "Check out the wiki on the github page for more info: https://github.com/SIGBlockchain/aurum_client/wiki"
