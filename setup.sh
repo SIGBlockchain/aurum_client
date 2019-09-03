@@ -20,7 +20,6 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@#########&@@@@@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@@@#########&@@@@" 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "Welcome! Let's get everything set up."
-go build -o client
 ./client -setup > /dev/null
 echo "Okay your wallet's ready."
 echo "Run ./client -h or ./client --help to see all commands"
