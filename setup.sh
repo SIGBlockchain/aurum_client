@@ -20,9 +20,8 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@#########&@@@@@@"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#######@@@@@@@@#########&@@@@" 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "Welcome! Let's get everything set up."
-chmod +x client
-./client --setup > /dev/null
-chmod 700 aurum_wallet.json
+go build -o client
+./client -setup > /dev/null
 echo "Okay your wallet's ready."
 echo "Run ./client -h or ./client --help to see all commands"
 echo "Check out the wiki on the github page for more info: https://github.com/SIGBlockchain/aurum_client/wiki"
