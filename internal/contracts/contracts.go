@@ -1,11 +1,13 @@
 package contracts
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
+	"reflect"
 	"strconv"
 
 	"github.com/SIGBlockchain/aurum_client/internal/hashing"
@@ -160,4 +162,39 @@ func ContractMessageFromInput(version uint16, value string, recipient string) (*
 	contract.SignContract(senderPubKey)
 
 	return contract, nil
+}
+
+// compare two contracts and return true only if all fields match
+func (contract1 *Contract) Equals(contract2 Contract) bool {
+	// copy both contracts
+	c1val := reflect.ValueOf(*contract1)
+	c2val := reflect.ValueOf(contract2)
+
+	// loops through fields
+	for i := 0; i < c1val.NumField(); i++ {
+		finterface1 := c1val.Field(i).Interface() // value assignment from c1 as interface
+		finterface2 := c2val.Field(i).Interface() // value assignment from c2 as interface
+
+		switch finterface1.(type) { // switch on type
+		case uint8, uint16, uint64, int64:
+			if finterface1 != finterface2 {
+				return false
+			}
+		case []byte:
+			if !bytes.Equal(finterface1.([]byte), finterface2.([]byte)) {
+				return false
+			}
+		case [][]byte:
+			for i := 0; i < len(finterface1.([][]byte)); i++ {
+				if !bytes.Equal(finterface1.([][]byte)[i], finterface2.([][]byte)[i]) {
+					return false
+				}
+			}
+		case *ecdsa.PublicKey:
+			if !reflect.DeepEqual(finterface1, finterface2) {
+				return false
+			}
+		}
+	}
+	return true
 }
