@@ -105,6 +105,10 @@ func main() {
 	}
 
 	if *options.value != "" && *options.recipient != "" {
+		if len(*options.recipient) != 64 {
+			log.Fatal("Recipient input is not 64 characters long")
+		}
+		
 		newContract, err := contracts.ContractMessageFromInput(cfg.Version, *options.value, *options.recipient)
 		if err != nil {
 			log.Fatalf("Failed to construct new contract: %v\n", err)
