@@ -5,7 +5,8 @@ Please select the branch that reflects your OS.
 [Linux Binary](https://github.com/SIGBlockchain/aurum_client/tree/linux_release)
 [Mac OS X Binary](https://github.com/SIGBlockchain/aurum_client/tree/mac_release)
 [Windows Binary](https://github.com/SIGBlockchain/aurum_client/tree/windows_release)
-Download this branch into your local environent. 
+Navigate to the bright green button on the right hand side that says clone or download. Click download zip.
+Find the zip file you downloaded and unzip to your desired directoy.
 Open a console or terminal window and navigate to the the aurum_client directory
 Type the following:
 sudo chmod +x setup.sh
