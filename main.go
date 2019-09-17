@@ -8,9 +8,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/SIGBlockchain/aurum_client/internal/config"
 	"github.com/SIGBlockchain/aurum_client/internal/contracts"
@@ -25,6 +27,7 @@ type Opts struct {
 	update    *bool
 	value     *string
 	recipient *string
+	producer  *string
 }
 
 func main() {
@@ -41,6 +44,7 @@ func main() {
 		update:    flag.Bool("update", false, "update wallet info"),
 		recipient: flag.String("to", "", "recipient"),
 		value:     flag.String("send", "", "value to send"),
+		producer:  flag.String("producer", cfg.ProducerAddress, "IP address of the producer"),
 	}
 	flag.Parse()
 
@@ -55,6 +59,23 @@ func main() {
 			log.Fatalf("Failed to get wallet contents: %v\n", err)
 		}
 		return
+	}
+
+	if *options.producer != cfg.ProducerAddress {
+		//check if a valid ip was given
+		parts := strings.Split(*options.producer, ":")
+		if len(parts) != 2 {
+			log.Fatalf("%s is not a valid ip:port address", *options.producer)
+		}
+		port, err := strconv.Atoi(parts[1])
+		if err != nil || port > 65535 {
+			log.Fatalf("Invalid port %s", parts[1])
+		}
+		if net.ParseIP(parts[0]) == nil {
+			log.Fatalf("Invalid IP address \"%s\"", parts[0])
+		}
+		cfg.ProducerAddress = *options.producer
+		defer config.SaveConfiguration(cfg)
 	}
 
 	if *options.setup {
