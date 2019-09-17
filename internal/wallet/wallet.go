@@ -261,3 +261,10 @@ func UpdateWallet(balance, stateNonce uint64) error {
 
 	return nil
 }
+
+func ValidRecipLen(recipient string) (bool, error) {
+	if len(recipient) != 64 {
+		return false, fmt.Errorf("Invalid length of %d ", len(recipient))
+	}
+	return true, nil
+}
