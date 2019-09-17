@@ -21,13 +21,13 @@ import (
 )
 
 type Opts struct {
-	version          *bool
-	setup            *bool
-	info             *bool
-	update           *bool
-	value            *string
-	recipient        *string
-	producer_address *string
+	version   *bool
+	setup     *bool
+	info      *bool
+	update    *bool
+	value     *string
+	recipient *string
+	producer  *string
 }
 
 func main() {
@@ -38,13 +38,13 @@ func main() {
 		os.Exit(1)
 	}
 	options := Opts{
-		version:          flag.Bool("version", false, "client version"),
-		setup:            flag.Bool("setup", false, "set up client"),
-		info:             flag.Bool("info", false, "wallet info"),
-		update:           flag.Bool("update", false, "update wallet info"),
-		recipient:        flag.String("to", "", "recipient"),
-		value:            flag.String("send", "", "value to send"),
-		producer_address: flag.String("producer", cfg.ProducerAddress, "IP address of the producer"),
+		version:   flag.Bool("version", false, "client version"),
+		setup:     flag.Bool("setup", false, "set up client"),
+		info:      flag.Bool("info", false, "wallet info"),
+		update:    flag.Bool("update", false, "update wallet info"),
+		recipient: flag.String("to", "", "recipient"),
+		value:     flag.String("send", "", "value to send"),
+		producer:  flag.String("producer", cfg.ProducerAddress, "IP address of the producer"),
 	}
 	flag.Parse()
 
@@ -61,11 +61,11 @@ func main() {
 		return
 	}
 
-	if *options.producer_address != cfg.ProducerAddress {
+	if *options.producer != cfg.ProducerAddress {
 		//check if a valid ip was given
-		parts := strings.Split(*options.producer_address, ":")
+		parts := strings.Split(*options.producer, ":")
 		if len(parts) != 2 {
-			log.Fatalf("%s is not a valid ip:port address", *options.producer_address)
+			log.Fatalf("%s is not a valid ip:port address", *options.producer)
 		}
 		port, err := strconv.Atoi(parts[1])
 		if err != nil || port > 65535 {
@@ -74,7 +74,7 @@ func main() {
 		if net.ParseIP(parts[0]) == nil {
 			log.Fatalf("Invalid IP address \"%s\"", parts[0])
 		}
-		cfg.ProducerAddress = *options.producer_address
+		cfg.ProducerAddress = *options.producer
 		defer config.SaveConfiguration(cfg)
 	}
 
