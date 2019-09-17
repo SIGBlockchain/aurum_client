@@ -33,3 +33,15 @@ func LoadConfiguration() (*Config, error) {
 
 	return &cfg, nil
 }
+
+//SaveConfiguration saves a configuration to file
+func SaveConfiguration(cfg *Config) error {
+	cfgData, err := json.Marshal(&cfg)
+	if err != nil {
+		return errors.New("Failed to marhsal the config data structure")
+	}
+	if ioutil.WriteFile(constants.ConfigurationFile, cfgData, 0644) != nil {
+		return errors.New("Failed to write configuration to file")
+	}
+	return nil
+}
