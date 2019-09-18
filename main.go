@@ -105,8 +105,8 @@ func main() {
 	}
 
 	if *options.value != "" && *options.recipient != "" {
-		if _, err := wallet.ValidRecipLen(*options.recipient); err != nil {
-			log.Fatalf("Recipient input is not 64 characters long. %v\n", err)
+		if !wallet.ValidRecipLen(*options.recipient) {
+			log.Fatalf("Recipient input is not 64 characters long\n")
 		}
 		newContract, err := contracts.ContractMessageFromInput(cfg.Version, *options.value, *options.recipient)
 		if err != nil {

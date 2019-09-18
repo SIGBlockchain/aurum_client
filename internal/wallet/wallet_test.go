@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestValidrecipLen(t *testing.T) {
+func TestValidRecipLen(t *testing.T) {
 	// recipients of different bytes to test
 	tests := []struct {
 		name  string
@@ -40,8 +40,8 @@ func TestValidrecipLen(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if result, err := ValidRecipLen(tt.recip); result != tt.want {
-				t.Errorf("Error: %v using %s\n", err, tt.name)
+			if result := ValidRecipLen(tt.recip); result != tt.want {
+				t.Errorf("Error: using %s\n", tt.name)
 			}
 		})
 	}
