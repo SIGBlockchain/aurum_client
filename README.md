@@ -8,7 +8,7 @@ Please select the branch that reflects your OS.
 Navigate to the bright green button on the right hand side that says clone or download. Click download zip.
 Find the zip file you downloaded and unzip to your desired directoy.
 Open a console or terminal window and navigate to the the aurum_client directory
-Type the following:
+Type the following (if on a Linux / Mac OS X system - for Windows, please change the listed files to be executable and run):
 sudo chmod +x setup.sh
 sudo ./setup.sh
 You should see the following message:
@@ -21,7 +21,7 @@ Okay your wallet's ready.
 Run ./client -h or ./client --help to see all commands
 Check out the wiki on the github page for more info: https://github.com/SIGBlockchain/aurum_client/wiki
 
-A file called aurum_wallet.json was created. Copy this file and store it somewhere secure. __It contains your private key. If you lose you private key, you will lose access to your wallet and it is not recoverable.__
+A file called aurum_wallet.json was created. Copy this file and store it in another directory as a backup (not in the aurum directory). __It contains your private key. If you lose you private key, you will lose access to your wallet and it is not recoverable.__
 You are now ready to use aurum. If you type ./client -h, you will see the following:
 Usage of ./client:
   -info
