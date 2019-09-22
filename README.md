@@ -1,3 +1,5 @@
+Aurum Client
+=============
 <img src = "assets/aurum_logo_readme.jpg"  alt="drawing" width="200"/>
 
 ## Installation
@@ -45,8 +47,7 @@ Usage of ./client:<br />
 * setup is to create a __new wallet__<br />
 * update gets the latest transaction data<br />
 
-Aurum Client
-=============
+## Project
 Aurum is a proprietary UIC ACM blockchain project. The current planned use case is a token to be exchanged among students. The aurum client is for accessing the Aurum network. If you wish to be a producer, please visit [Project Aurum](https://github.com/SIGBlockchain/project_aurum) for the producer application.
 
 ## Contribute
