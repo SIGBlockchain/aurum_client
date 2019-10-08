@@ -36,6 +36,11 @@ func TestValidRecipLen(t *testing.T) {
 			recip: "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2deded1a2c3c4e3d",
 			want:  false,
 		},
+		{
+			name:  "invalid hex character recipient",
+			recip: "2d2d2d2d2d2d2d2@d2d2dQ22d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2dedL",
+			want:  false,
+		},
 	}
 
 	for _, tt := range tests {
