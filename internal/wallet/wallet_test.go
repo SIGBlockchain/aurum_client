@@ -38,7 +38,7 @@ func TestValidRecipLen(t *testing.T) {
 		},
 		{
 			name:  "invalid recipient",
-			recip: "2d2d2@2d2d2d2d2d2d2d2L2d2d2d2d2d2d2dm2d2d2d2d2d2d2d2d2d2d2d2dededQ",
+			recip: "2d2d2@2d2d2d2d2d2d2d2L2d2d2d2d2d2d2dm2d2d2d2d2d2d2d2d2d2d2dededQ",
 			want:  false,
 		}
 	}
