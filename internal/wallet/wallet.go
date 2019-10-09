@@ -266,8 +266,5 @@ func UpdateWallet(balance, stateNonce uint64) error {
 //ValidRecipLen validates the size of the recipient
 func ValidRecipLen(recipient string) bool {
 	matched, _ := regexp.MatchString("^[a-f0-9]{64}$", recipient)
-	if !matched {
-		return false	
-	}
-	return true
+	return matched
 }
