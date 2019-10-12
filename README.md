@@ -1,7 +1,7 @@
-Aurum Client
-=============
 <img src = "assets/aurum_logo_readme.jpg"  alt="drawing" width="200"/>
 
+Aurum Client
+=============
 ## Installation
 Please select the branch that reflects your OS.<br />
 * [Linux Binary](https://github.com/SIGBlockchain/aurum_client/tree/linux_release.zip)
