@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"regexp"
 
 	"github.com/SIGBlockchain/aurum_client/internal/constants"
 	"github.com/SIGBlockchain/aurum_client/internal/hashing"
@@ -262,10 +263,8 @@ func UpdateWallet(balance, stateNonce uint64) error {
 	return nil
 }
 
-//validates the size of the recipient
+//ValidRecipLen validates the size of the recipient
 func ValidRecipLen(recipient string) bool {
-	if len(recipient) != 64 {
-		return false
-	}
-	return true
+	matched, _ := regexp.MatchString("^[a-f0-9]{64}$", recipient)
+	return matched
 }
