@@ -2,50 +2,20 @@ Aurum Client
 =============
 <img src = "assets/aurum_logo_readme.jpg"  alt="drawing" width="200"/>
 
-## Installation
-Please select the branch that reflects your OS.<br />
-* [Linux Binary](https://github.com/SIGBlockchain/aurum_client/tree/linux_release.zip)
-* [Mac OS X Binary](https://github.com/SIGBlockchain/aurum_client/tree/mac_release.zip)
-* [Windows Binary](https://github.com/SIGBlockchain/aurum_client/tree/windows_release.zip)
+## Setup
+* Navigate to the [releases page](https://github.com/SIGBlockchain/aurum_client/releases)
+* Download the archive file compatible with your operating system.
+* Extract the archive in a secure folder.
+* Run `client --setup` to setup your wallet.
+* Your wallet address, balance, and state nonce will be displayed.
+* A new file will be generated called `aurum_wallet.json`
+* It is strongly recommended you make a copy of your `aurum_wallet.json` and store it in a secure location.
+* __This file contains your private key. If you lose your key you will be unable to access your account.__
 
-<br />Navigate to the bright green button on the right hand side that says clone or download. Click download zip.<br />
-Find the zip file you downloaded and unzip to your desired directoy.<br />
-Open a console or terminal window and navigate to the the aurum_client directory<br />
-Type the following (for a Linux / Mac OS X environment): <br />
-1. sudo chmod +x setup.sh
-2. sudo ./setup.sh
-
-* For Windows, please change the listed files to be executable and run ./setup.sh as an admin
-
-You should see the following message:<br />
-**Aurum ascii logo**<br />
-Welcome! Let's get everything set up.<br />
-Initializing Aurum wallet...<br />
-Wallet setup complete.<br />
-Okay your wallet's ready.<br />
-Run ./client -h or ./client --help to see all commands<br />
-Check out the wiki on the github page for more info: https://github.com/SIGBlockchain/aurum_client/wiki<br />
-
-A file called aurum_wallet.json was created. Copy this file and store it in another directory as a backup (not in the aurum directory). __It contains your private key. If you lose you private key, you will lose access to your wallet and it is not recoverable.__<br />
-
-You are now ready to use aurum. If you type ./client -h, you will see the following:<br />
-Usage of ./client:<br />
-  -info<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;wallet info<br />
-  -send string<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;value to send<br />
-  -setup<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;set up client<br />
-  -to string<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;recipient<br />
-  -update<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;update wallet info<br />
-  -version<br />
-    	&nbsp;&nbsp;&nbsp;&nbsp;client version<br />
-
-* send string means put the address of the person you want to interact with.<br />
-* setup is to create a __new wallet__<br />
-* update gets the latest transaction data<br />
+## Usage
+* To display your wallet contents at any time, run `client --info`
+* To sync your wallet with the blockchain, run `client --update`
+* To send Aurum, run `client --send <AmountToBeSent> --to <RecipientWalletAddress>`
 
 ## Project
 Aurum is a proprietary UIC ACM blockchain project. The current planned use case is a token to be exchanged among students. The aurum client is for accessing the Aurum network. If you wish to be a producer, please visit [Project Aurum](https://github.com/SIGBlockchain/project_aurum) for the producer application.
