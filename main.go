@@ -169,7 +169,7 @@ func main() {
 		if err := wallet.UpdateWallet(currentBalance-uint64(intVal), currentNonce+1); err != nil {
 			log.Fatalf("Failed to update wallet: %v\n", err)
 		}
-		log.Println("Successfully sent contract to producer.\nContract will be confirmed once next block is producer.")
+		log.Println("Successfully sent contract to producer.\nContract will be confirmed once next block is produced.")
 	}
 
 }
