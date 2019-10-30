@@ -1,4 +1,7 @@
 package endpoints
 
-const AccountInfo = "/accountinfo"
-const Contract = "/contract"
+const (
+	AccountInfo = "/accountinfo"
+	Contract    = "/contract"
+	PeerList    = "http://blockchain.acmapp.tech/peers"
+)
