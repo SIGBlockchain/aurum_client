@@ -41,8 +41,8 @@ func NewContractRequest(host string, newContract contracts.Contract) (*http.Requ
 		SignatureLength:        newContract.SigLen,
 		Signature:              hex.EncodeToString(newContract.Signature),
 		RecipientWalletAddress: hex.EncodeToString(newContract.RecipPubKeyHash),
-		Value:      newContract.Value,
-		StateNonce: newContract.StateNonce,
+		Value:                  newContract.Value,
+		StateNonce:             newContract.StateNonce,
 	}
 	marshalledContract, err := json.Marshal(newJSONContract)
 	if err != nil {
@@ -55,4 +55,12 @@ func NewContractRequest(host string, newContract contracts.Contract) (*http.Requ
 	req.Header.Set("Content-Type", "application/json")
 	return req, nil
 
+}
+
+func GetPeerListRequest() (*http.Request, error) {
+	req, err := http.NewRequest(http.MethodGet, endpoints.PeerList, nil)
+	if err != nil {
+		return nil, errors.New("Failed to make new request:\n" + err.Error())
+	}
+	return req, nil
 }
