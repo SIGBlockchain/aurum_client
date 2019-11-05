@@ -108,6 +108,14 @@ func main() {
 			log.Fatalf("Failed getting response from producer: %v\n", err)
 		}
 		if resp.StatusCode != http.StatusOK {
+			if resp.StatusCode == http.StatusNotFound { //account requested was no valid
+				bodyBytes, err := ioutil.ReadAll(resp.Body)
+				if err != nil {
+					log.Fatal(err)
+				}
+				bodyString := string(bodyBytes)
+				log.Fatalf("Account status could not be retrievd: %v\n", bodyString)
+			}
 			// TODO: Include some kind of response body
 			log.Fatalf("Status code: %v\n", resp.StatusCode)
 		}
