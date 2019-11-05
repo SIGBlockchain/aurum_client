@@ -18,10 +18,16 @@ import (
 	"github.com/SIGBlockchain/aurum_client/internal/publickey"
 )
 
+type ContractSummary struct {
+	Outgoing  bool
+	Recipient []byte
+	Amount    uint64
+}
 type Wallet struct {
-	WalletAddress string
-	Balance       uint64
-	StateNonce    uint64
+	WalletAddress   string
+	Balance         uint64
+	StateNonce      uint64
+	ContractHistory []ContractSummary
 }
 
 func SetupWallet() error {
@@ -40,9 +46,10 @@ func SetupWallet() error {
 
 	// Json structure that will be used to store information into the json file
 	type jsonStruct struct {
-		PrivateKey string
-		Balance    uint64
-		Nonce      uint64
+		PrivateKey      string
+		Balance         uint64
+		Nonce           uint64
+		ContractHistory []ContractSummary
 	}
 
 	// Generate ecdsa key pairs

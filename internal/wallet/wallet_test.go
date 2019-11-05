@@ -9,8 +9,8 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-
 	"github.com/SIGBlockchain/aurum_client/internal/privatekey"
+	"github.com/SIGBlockchain/aurum_client/internal/constants"
 )
 
 func TestValidRecipLen(t *testing.T) {
@@ -103,5 +103,29 @@ func TestRecoverWallet(t *testing.T) {
 	// assert
 	if actual != expected {
 		t.Error("recovered wallet address is not the same as actual wallet address")
+	}
+  
+func TestContractHistoryExists(t *testing.T) {
+	// create json wallet
+	SetupWallet()
+	defer os.Remove(constants.Wallet)
+
+	// open json file
+	jsonFile, err := os.Open(constants.Wallet)
+	if err != nil {
+		t.Errorf("Error opening JSON")
+	}
+	defer jsonFile.Close()
+
+	// read file into byte array
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	// create wallet struct
+	var testWallet Wallet
+	json.Unmarshal(byteValue, &testWallet)
+
+	// check if contract history field exists in struct
+	if testWallet.ContractHistory != nil {
+		t.Errorf("ContractHistory not nil")
 	}
 }
