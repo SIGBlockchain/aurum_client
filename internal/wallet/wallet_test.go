@@ -104,6 +104,19 @@ func TestRecoverWallet(t *testing.T) {
 	if actual != expected {
 		t.Error("recovered wallet address is not the same as actual wallet address")
 	}
+	
+	if j.Balance != 0 {
+		t.Error("the balance was not zero")
+	}
+	
+	if j.StateNonce != 0 {
+		t.Error("the balance was not zero")
+	}
+	
+	if j.ContractHistory != nil {
+		t.Error("the ContractHistory slice is not empty")
+	}	
+}
   
 func TestContractHistoryExists(t *testing.T) {
 	// create json wallet
