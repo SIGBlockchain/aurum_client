@@ -58,10 +58,9 @@ func TestValidRecipLen(t *testing.T) {
 }
 
 func TestContractHistoryExists(t *testing.T) {
-	// load wallet contents using json package to wallet struct
-	SetupWallet() // create wallet json
+	// create json wallet
+	SetupWallet()
 	defer os.Remove(constants.Wallet)
-	var testWallet Wallet // create wallet struct
 
 	// open json file
 	jsonFile, err := os.Open(constants.Wallet)
@@ -73,6 +72,8 @@ func TestContractHistoryExists(t *testing.T) {
 	// read file into byte array
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
+	// create wallet struct
+	var testWallet Wallet
 	json.Unmarshal(byteValue, &testWallet)
 
 	// check if contract history field exists in struct
