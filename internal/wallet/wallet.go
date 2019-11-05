@@ -284,7 +284,7 @@ func RecoverWallet(pemEncodedString string) error {
 	}
 	defer file.Close()
 
-	wallet := Wallet{WalletAddress: pemEncodedString}
+	wallet := Wallet{WalletAddress: pemEncodedString, Balance: 0, StateNonce: 0}
 
 	// Marshall the jsonStruct
 	jsonEncoded, err := json.Marshal(wallet)

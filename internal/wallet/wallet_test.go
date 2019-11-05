@@ -61,7 +61,6 @@ func TestValidRecipLen(t *testing.T) {
 	}
 }
 
-// TODO RecoverWallet should be implemented with mocking
 func TestRecoverWallet(t *testing.T) {
 	// arrange
 	// Generate ecdsa key pairs
@@ -84,16 +83,12 @@ func TestRecoverWallet(t *testing.T) {
 		t.Error("Failed to open wallet")
 	}
 	defer tmpfile.Close()
+	defer os.Remove(tmpfile.Name())
 
 	// Reads the json file and stores the data into a byte slice
 	data, err := ioutil.ReadAll(tmpfile)
 	if err != nil {
 		t.Error("Failed to read wallet")
-	}
-
-	// Json struct for storing the data from the json file
-	type jsonStruct struct {
-		PrivateKey string
 	}
 
 	// Parse the data from the json file into a jsonStruct
@@ -108,16 +103,5 @@ func TestRecoverWallet(t *testing.T) {
 	// assert
 	if actual != expected {
 		t.Error("recovered wallet address is not the same as actual wallet address")
-	}
-
-	err = tmpfile.Close() //closes file
-	if err != nil {
-		t.Errorf("Failed to remove database: %s", err)
-	}
-
-	err = os.Remove(tmpfile.Name()) //deletes the file
-	if err != nil {
-		t.Errorf("Failed to remove database: %s", err)
-
 	}
 }
