@@ -1,7 +1,12 @@
 package wallet
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"os"
 	"testing"
+
+	"github.com/SIGBlockchain/aurum_client/internal/constants"
 )
 
 func TestValidRecipLen(t *testing.T) {
@@ -50,4 +55,26 @@ func TestValidRecipLen(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestContractHistoryExists(t *testing.T) {
+	// load wallet contents using json package to wallet struct
+	SetupWallet() // create wallet json
+	defer os.Remove(constants.Wallet)
+	var testWallet Wallet // create wallet struct
+
+	// open json file
+	jsonFile, err := os.Open(constants.Wallet)
+	if err != nil {
+		t.Errorf("Error opening JSON")
+	}
+	defer jsonFile.Close()
+
+	// read file into byte array
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	json.Unmarshal(byteValue, &testWallet)
+
+	// check if contract history field exists in struct
+	_ = testWallet.ContractHistory
 }
