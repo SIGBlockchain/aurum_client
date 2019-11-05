@@ -77,5 +77,8 @@ func TestContractHistoryExists(t *testing.T) {
 	json.Unmarshal(byteValue, &testWallet)
 
 	// check if contract history field exists in struct
-	_ = testWallet.ContractHistory
+	if testWallet.ContractHistory != nil {
+		t.Errorf("ContractHistory not nil")
+	}
+
 }
