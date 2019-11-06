@@ -275,3 +275,35 @@ func ValidRecipLen(recipient string) bool {
 	matched, _ := regexp.MatchString("^[a-f0-9]{64}$", recipient)
 	return matched
 }
+
+// RecoverWallet will generate aurum_wallet.json with a given private key
+func RecoverWallet(pemEncodedString string) error {
+	// if the JSON file already exists, return error
+	_, err := os.Stat(constants.Wallet)
+	if err == nil {
+		return errors.New("JSON file for aurum_wallet already exists")
+	}
+
+	// Create JSON file for wallet
+	file, err := os.Create(constants.Wallet)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	wallet := Wallet{WalletAddress: pemEncodedString, Balance: 0, StateNonce: 0}
+
+	// Marshall the jsonStruct
+	jsonEncoded, err := json.Marshal(wallet)
+	if err != nil {
+		return err
+	}
+
+	// Write into the json file
+	_, err = file.Write(jsonEncoded)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
