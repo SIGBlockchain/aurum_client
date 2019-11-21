@@ -28,6 +28,8 @@ type Opts struct {
 	value     *string
 	recipient *string
 	producer  *string
+	save      *string
+	as		  *string
 }
 
 func main() {
@@ -45,6 +47,8 @@ func main() {
 		recipient: flag.String("to", "", "recipient"),
 		value:     flag.String("send", "", "value to send"),
 		producer:  flag.String("producer", cfg.ProducerAddress, "IP address of the producer"),
+		save:      flag.String("save", "", "wallet addresss"),
+		as:		   flag.String("as", "", "name")
 	}
 	flag.Parse()
 
@@ -177,6 +181,15 @@ func main() {
 			log.Fatalf("Failed to update wallet: %v\n", err)
 		}
 		log.Println("Successfully sent contract to producer.\nContract will be confirmed once next block is produced.")
+	}
+
+	if *options.save != "" && *options.as != "" {
+		if !wallet.ValidRecipLen(*options.save) {
+			log.Fatalf("Recipient input is not 64 characters long\n")
+		}
+
+		// open addressbook json to add wallet address
+		
 	}
 
 }
