@@ -29,7 +29,7 @@ type Opts struct {
 	recipient *string
 	producer  *string
 	save      *string
-	as		  *string
+	as        *string
 }
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 		value:     flag.String("send", "", "value to send"),
 		producer:  flag.String("producer", cfg.ProducerAddress, "IP address of the producer"),
 		save:      flag.String("save", "", "wallet addresss"),
-		as:		   flag.String("as", "", "name")
+		as:        flag.String("as", "", "name"),
 	}
 	flag.Parse()
 
@@ -189,7 +189,7 @@ func main() {
 		}
 
 		// open addressbook json to add wallet address
-		
+
 	}
 
 }
